@@ -14,11 +14,8 @@
     "lib": ["es2017", "dom"],
     "baseUrl": "src"
   },
-  "include": [
-    "./src/**/*.ts",
-    "./test/**/*.ts",
-    "./custom_typings/**/*.d.ts"
-  ],
+  "include": ["./src/**/*.ts", "./test/**/*.ts", "./custom_typings/**/*.d.ts"],
+  "exclude": ["node_modules/@types/node"],
   "atom": {
     "rewriteTsconfig": false
   }
