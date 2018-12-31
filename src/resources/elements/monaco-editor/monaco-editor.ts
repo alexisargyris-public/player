@@ -3,8 +3,8 @@ import { EditorFactory } from './editor-factory'
 
 @autoinject
 export class MonacoEditor {
-  public editorHost: HTMLElement
-  private editorHostContainer: any
+  public editorHostContainer: HTMLElement
+  private editorParent: any
   private editorFactory: EditorFactory
   private editor: any
   private resizeTimer = null
@@ -16,7 +16,7 @@ export class MonacoEditor {
   }
   public attached() {
     this.editorFactory
-      .createEditor(this.editorHost, {
+      .createEditor(this.editorHostContainer, {
         language: 'plaintext',
         value: 'hello world',
         readOnly: true,
@@ -26,7 +26,7 @@ export class MonacoEditor {
       })
       .then(ed => {
         this.editor = ed
-        this.editorHostContainer = this.editorHost.parentNode.parentNode
+        this.editorParent = this.editorHostContainer.parentNode
         this.onResized()
         window.addEventListener('resize', this.onResized.bind(this))
       })
@@ -36,10 +36,8 @@ export class MonacoEditor {
     // use throttling (https://stackoverflow.com/questions/35937020/aurelia-resize-layout-change-event-for-view)
     clearTimeout(this.resizeTimer)
     this.resizeTimer = setTimeout(() => {
-      this.editorHost.style.height =
-        (
-          this.editorHostContainer.clientHeight - this.paddingHeight
-        ).toString() + 'px'
+      this.editorHostContainer.style.height =
+        (this.editorParent.clientHeight - this.paddingHeight).toString() + 'px'
       this.editor.layout()
     }, this.throttleLimit)
   }
