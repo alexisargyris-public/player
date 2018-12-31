@@ -59,7 +59,10 @@
       }
     ],
     "copyFiles": {
-      "node_modules/monaco-editor/monaco.d.ts": "custom_typings"
+      "node_modules/monaco-editor/monaco.d.ts": "custom_typings",
+      "node_modules/monaco-editor/min/vs/*": "scripts/vs",
+      "node_modules/monaco-editor/min/vs/base/worker/*": "scripts/vs/base/worker",
+      "node_modules/monaco-editor/min/vs/editor/*": "scripts/vs/editor"
     },
     "loader": {
       "type": "require",
