@@ -14,6 +14,7 @@
     "bootstrap": "^4.2.1",
     "jquery": "^3.3.1",
     "monaco-editor": "^0.15.6",
+    "open-iconic": "^1.1.1",
     "requirejs": "^2.3.6",
     "text": "github:requirejs/text#latest"
   },

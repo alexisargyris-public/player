@@ -1,0 +1,47 @@
+<template>
+  <require from="./editor-controller.css"></require>
+
+  <div id="editor-controller-container">
+    <div id="editor-controller-buttons">
+      <span class="editor-controller-button oi oi-media-step-backward"></span>
+      <span class="editor-controller-button oi oi-media-skip-backward"></span>
+      <span class="editor-controller-button oi oi-media-play"></span>
+      <span class="editor-controller-button oi oi-media-skip-forward"></span>
+      <span class="editor-controller-button oi oi-media-step-forward"></span>
+    </div>
+    <div id="editor-controller-options">
+      <div class="dropdown dropleft">
+        <button
+          class="btn dropdown-toggle"
+          type="button"
+          id="dropdownMenuButton"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          επιλογές
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <div class="custom-control custom-switch">
+            <input
+              type="checkbox"
+              class="custom-control-input"
+              id="customSwitch1"
+            />
+            <label class="custom-control-label" for="customSwitch1"
+              >χρονολογημένα</label
+            >
+          </div>
+          <label for="totalTime">συνολικός χρόνος</label>
+          <input
+            type="email"
+            class="form-control"
+            id="totalTime"
+            aria-describedby="totalTime"
+            placeholder="4"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

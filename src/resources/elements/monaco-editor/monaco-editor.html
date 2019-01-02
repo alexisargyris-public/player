@@ -1,45 +1,9 @@
 <template>
+  <require from="./editor-controller"></require>
   <require from="./monaco-editor.css"></require>
 
   <div id="editor-top-container">
-    <nav
-      id="editor-controller-container"
-      class="navbar navbar-expand flex-column flex-md-row bd-navbar"
-    >
-      <div class="navbar-nav-scroll">
-        <ul class="navbar-nav bd-navbar-nav flex-row">
-          <li class="nav-item"><a class="nav-link">first</a></li>
-          <li class="nav-item"><a class="nav-link">left</a></li>
-          <li class="nav-item"><a class="nav-link">play</a></li>
-          <li class="nav-item"><a class="nav-link">right</a></li>
-          <li class="nav-item"><a class="nav-link">last</a></li>
-        </ul>
-      </div>
-      <div class="flex-row ml-md-auto d-none d-md-flex">
-        <ul class="navbar-nav">
-          <li class="nav-item dropdown">
-            <a
-              class="nav-link dropdown-toggle mr-md-2"
-              href="#"
-              role="button"
-              id="editorControllerMenu"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              ...
-            </a>
-            <div
-              class="dropdown-menu dropdown-menu-right"
-              aria-labelledby="editorControllerMenu"
-            >
-              <a class="dropdown-item">something</a>
-              <a class="dropdown-item">something else</a>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </nav>
+    <editor-controller></editor-controller>
     <div id="editor-host-container" ref="editorHostContainer"></div>
   </div>
 </template>
