@@ -3,11 +3,55 @@
 
   <div id="editor-controller-container">
     <div id="editor-controller-buttons">
-      <span class="editor-controller-button oi oi-media-step-backward"></span>
-      <span class="editor-controller-button oi oi-media-skip-backward"></span>
-      <span class="editor-controller-button oi oi-media-play"></span>
-      <span class="editor-controller-button oi oi-media-skip-forward"></span>
-      <span class="editor-controller-button oi oi-media-step-forward"></span>
+      <button
+        type="button"
+        class="btn btn-outline-dark editor-controller-button oi oi-media-step-backward"
+        data-action="first"
+        click.trigger="do($event)"
+      ></button>
+      <button
+        type="button"
+        class="btn btn-outline-dark editor-controller-button oi oi-media-skip-backward"
+        data-action="previous"
+        click.trigger="do($event)"
+      ></button>
+      <button
+        type="button"
+        class="btn btn-outline-dark editor-controller-button oi oi-media-play"
+        style="transform:scaleX(-1);"
+        data-toggle="button"
+        data-action="rplay"
+        click.trigger="do($event)"
+      ></button>
+      <button
+        type="button"
+        class="btn btn-outline-dark editor-controller-button oi oi-media-pause"
+        data-toggle="button"
+        data-action="pause"
+        click.trigger="do($event)"
+      ></button>
+      <button
+        type="button"
+        class="btn btn-outline-dark editor-controller-button oi oi-media-play"
+        data-toggle="button"
+        data-action="play"
+        click.trigger="do($event)"
+      ></button>
+      <button
+        type="button"
+        class="btn btn-outline-dark editor-controller-button oi oi-media-skip-forward"
+        data-action="next"
+        click.trigger="do($event)"
+      ></button>
+      <button
+        type="button"
+        class="btn btn-outline-dark editor-controller-button oi oi-media-step-forward"
+        data-action="last"
+        click.trigger="do($event)"
+      ></button>
+    </div>
+    <div id="editor-controller-counters">
+      <span>${ changesCounter }</span><span>${ changesTotal }</span>
     </div>
     <div id="editor-controller-options">
       <div class="dropdown dropleft">
@@ -32,14 +76,16 @@
               >χρονολογημένα</label
             >
           </div>
-          <label for="totalTime">συνολικός χρόνος</label>
-          <input
-            type="email"
-            class="form-control"
-            id="totalTime"
-            aria-describedby="totalTime"
-            placeholder="4"
-          />
+          <div class="form-group">
+            <label for="total-time">σύνολο</label>
+            <input
+              type="number"
+              class="form-control"
+              id="total-time"
+              aria-describedby="total-time"
+              placeholder="4"
+            />
+          </div>
         </div>
       </div>
     </div>

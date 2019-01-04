@@ -41,4 +41,7 @@ export class MonacoEditor {
       this.editor.layout()
     }, this.throttleLimit)
   }
+  public doAction(action) {
+    console.log(action)
+  }
 }

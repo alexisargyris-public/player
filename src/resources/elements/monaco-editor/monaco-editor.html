@@ -3,7 +3,7 @@
   <require from="./monaco-editor.css"></require>
 
   <div id="editor-top-container">
-    <editor-controller></editor-controller>
+    <editor-controller do-action.call="doAction(action)"></editor-controller>
     <div id="editor-host-container" ref="editorHostContainer"></div>
   </div>
 </template>
