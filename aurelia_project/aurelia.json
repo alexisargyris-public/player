@@ -71,9 +71,7 @@
       "node_modules/monaco-editor/monaco.d.ts": "custom_typings",
       "node_modules/monaco-editor/min/vs/*": "scripts/vs",
       "node_modules/monaco-editor/min/vs/base/worker/*": "scripts/vs/base/worker",
-      "node_modules/monaco-editor/min/vs/editor/*": "scripts/vs/editor",
-      "node_modules/open-iconic/font/fonts/open-iconic.woff": "resources/elements/fonts",
-      "node_modules/open-iconic/font/css/open-iconic-bootstrap.scss": "src/resources/elements/monaco-editor"
+      "node_modules/monaco-editor/min/vs/editor/*": "scripts/vs/editor"
     },
     "loader": {
       "type": "require",

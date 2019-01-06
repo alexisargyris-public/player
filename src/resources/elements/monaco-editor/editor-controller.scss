@@ -1,4 +1,4 @@
-@import './open-iconic-bootstrap';
+@import "open-iconic-bootstrap.scss";
 
 #editor-controller-container {
   display: flex;
@@ -35,7 +35,7 @@
   padding: 0.5rem;
 }
 
-#total-time {
+#settings-play-limit {
   width: 4rem;
   display: inline-block;
   height: calc(1.5rem + 2px);
