@@ -1,69 +1,42 @@
-import { autoinject } from 'aurelia-framework'
+import { autoinject, bindable, bindingMode } from 'aurelia-framework'
 import { EditorFactory } from './editor-factory'
 
-export type EditorAction =
-  | 'first'
-  | 'previous'
-  | 'rplay'
-  | 'pause'
-  | 'play'
-  | 'next'
-  | 'last'
-
-export interface EditorControlState {
-  first: Boolean
-  previous: Boolean
-  rplay: Boolean
-  pause: Boolean
-  play: Boolean
-  next: Boolean
-  last: Boolean
-}
+export type EditorAction = 'first' | 'previous' | 'next'
 
 @autoinject
 export class MonacoEditor {
+  @bindable({ defaultBindingMode: bindingMode.oneTime })
+  public changes: any[]
   public editorHostContainer: HTMLElement
-  public changesCounter: Number
-  public changesTotal: Number
-  public settingsTimely: Boolean // take into account change timing info
-  public settingsPlayLimit: Number // duration of changes playing
-  public controlStates: EditorControlState
-  private editorParent: any
+  public changesTotal: number
+  private editorParent: HTMLElement
   private editorFactory: EditorFactory
-  private editor: any
+  private editor: monaco.editor.IStandaloneCodeEditor
+  private editorModel: monaco.editor.ITextModel
   private resizeTimer = null
-  private readonly throttleLimit: Number = 250
-  private readonly paddingHeight: Number = 32
+  private readonly throttleLimit: number = 250
+  private readonly paddingHeight: number = 32
 
   constructor(editorFactory: EditorFactory) {
     this.editorFactory = editorFactory
-    this.changesCounter = 27
-    this.changesTotal = 102
-    this.settingsPlayLimit = 9
-    this.settingsTimely = true
-    this.controlStates = {
-      first: false,
-      previous: false,
-      rplay: false,
-      pause: false,
-      play: true,
-      next: true,
-      last: true
-    }
+  }
+  bind() {
+    this.changesTotal = this.changes.length - 1
   }
   public attached() {
     this.editorFactory
       .createEditor(this.editorHostContainer, {
         language: 'plaintext',
-        value: 'hello world',
-        readOnly: true,
+        value: '',
+        readOnly: false,
         theme: 'vs-dark',
         wordWrap: 'bounded',
         scrollBeyondLastLine: false
       })
       .then(ed => {
         this.editor = ed
-        this.editorParent = this.editorHostContainer.parentNode
+        this.editorModel = this.editor.getModel()
+        this.editorParent = this.editorHostContainer.parentElement
         this.onResized()
         window.addEventListener('resize', this.onResized.bind(this))
       })
@@ -78,7 +51,33 @@ export class MonacoEditor {
       this.editor.layout()
     }, this.throttleLimit)
   }
-  public doAction(action: EditorAction) {
-    console.log(action)
+  public doAction(action: string, counter: number) {
+    function reset() {
+      this.editorModel.setValue('')
+    }
+    function previous() {
+      this.editor.trigger('anmz', 'undo')
+    }
+    function next(counter: number) {
+      this.editor.executeEdits('anmz', [this.changes[counter]])
+      this.editor.pushUndoStop()
+      this.editor.revealLineInCenter(
+        this.changes[counter].range.startLineNumber
+      )
+    }
+
+    switch (action) {
+      case 'first':
+        reset.call(this)
+        break
+      case 'previous':
+        previous.call(this)
+        break
+      case 'next':
+        next.call(this, counter)
+        break
+      default:
+        break
+    }
   }
 }

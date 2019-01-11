@@ -4,12 +4,8 @@
 
   <div id="editor-top-container">
     <editor-controller
-      do-action.call="doAction(action)"
-      changes-counter.bind="changesCounter"
+      do-action.call="doAction(action, counter)"
       changes-total.bind="changesTotal"
-      settings-timely.bind="settingsTimely"
-      settings-play-limit.bind="settingsPlayLimit"
-      control-states.bind="controlStates"
     ></editor-controller>
     <div id="editor-host-container" ref="editorHostContainer"></div>
   </div>

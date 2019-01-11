@@ -9,7 +9,7 @@ export default function processCSS() {
     .src(project.cssProcessor.source)
     .pipe(sourcemaps.init())
     .pipe(
-      sass({ includePaths: ['/node_modules/open-iconic/font/css'] }).on(
+      sass({ includePaths: ['node_modules/open-iconic/font/css'] }).on(
         'error',
         sass.logError
       )
