@@ -1,6 +1,4 @@
 import { bindable, bindingMode } from 'aurelia-framework'
-import { EditorAction } from './monaco-editor'
-import { bind } from 'bluebird'
 
 interface EditorControlState {
   first: boolean
@@ -14,21 +12,26 @@ interface EditorControlState {
 export class EditorController {
   @bindable public doAction: Function
   @bindable({ defaultBindingMode: bindingMode.oneTime })
+  public changes: any[]
   public changesTotal: number
+  public firstChangeTimestamp: number
   public changesCounter: number = 0
   public controlStates: EditorControlState = {} as EditorControlState
-  public settingsTimely: boolean = true // take into account change timing info
-  public settingsPlayLimit: number = 5 // in secs, how long changes will play
-  public playTimeout: number
-  public playInterval: any
+  public settingsRespectTiming: boolean = false // take into account change timing info
+  public settingsPlayDurationSecs: number = 5 // time duration for all changes to play
+  public settingsPlayDurationMSecs: number =
+    this.settingsPlayDurationSecs * 1000
+  public playDelay: number
+  public timerId: number
 
   bind() {
-    this.playTimeout = (this.settingsPlayLimit * 1000) / this.changesTotal
+    this.changesTotal = this.changes.length - 1
+    this.firstChangeTimestamp = this.changes[0].timestamp
   }
   attached() {
-    this.do('pause')
+    this.do(void 0, 'pause')
   }
-  public do(param) {
+  public do(event?: any, action?: string) {
     function idleState() {
       let canMoveForward = this.changesCounter < this.changesTotal
       let canMoveBackward = this.changesCounter > 0
@@ -51,42 +54,45 @@ export class EditorController {
     }
     function rplay() {
       // action 'reverse play (rplay)' is a series of 'previous' actions
-      // set the interval, if necessary
-      if (!this.playInterval) {
-        this.playInterval = setInterval(rplay.bind(this), this.playTimeout)
-      }
-      // play a 'next' action until the beginning
       if (this.changesCounter > 0) {
+        // changes remain, do a 'previous' action and repeat
         this.doAction({ action: 'previous', counter: this.changesCounter })
         --this.changesCounter
+        this.playDelay = this.settingsRespectTiming
+          ? ((this.changes[this.changesCounter] - this.firstChangeTimestamp) /
+              this.firstChangeTimestamp) *
+            this.settingsPlayDurationMSecs
+          : this.settingsPlayDurationMSecs / this.changesTotal
+        this.timerId = setTimeout(play.bind(this), this.playDelay)
       } else {
-        this.do('pause')
+        // no more changes, do a 'pause' action
+        this.do(void 0, 'pause')
       }
     }
     function play() {
       // action 'play' is a series of 'next' actions
-      // set the interval, if necessary
-      if (!this.playInterval) {
-        this.playInterval = setInterval(play.bind(this), this.playTimeout)
-      }
-      // play a 'next' action until the end
       if (this.changesCounter <= this.changesTotal - 1) {
+        // changes remain, do a 'next' action and repeat
         this.doAction({ action: 'next', counter: this.changesCounter })
         ++this.changesCounter
+        this.playDelay = this.settingsRespectTiming
+          ? ((this.changes[this.changesCounter] - this.firstChangeTimestamp) /
+              this.firstChangeTimestamp) *
+            this.settingsPlayDurationMSecs
+          : this.settingsPlayDurationMSecs / this.changesTotal
+        this.timerId = setTimeout(play.bind(this), this.playDelay)
       } else {
-        this.do('pause')
+        // no more changes, do a 'pause' action
+        this.do(void 0, 'pause')
       }
     }
     function pause() {
-      if (this.playInterval) {
-        clearInterval(this.playInterval)
-        this.playInterval = 0
-      }
+      clearTimeout(this.timerId)
     }
 
-    // param may be event or string
+    // if an event was passed in then use its target, otherwise expect a string
     let act: string =
-      typeof param.target !== 'undefined' ? param.target.dataset.action : param
+      typeof event !== 'undefined' ? event.target.dataset.action : action
 
     switch (act) {
       case 'first':
@@ -122,5 +128,8 @@ export class EditorController {
       default:
         break
     }
+  }
+  public settingsPlayDurationSecsChanged(newValue: number, oldValue: number) {
+    this.settingsPlayDurationMSecs = newValue * 1000
   }
 }

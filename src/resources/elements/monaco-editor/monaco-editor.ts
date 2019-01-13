@@ -8,7 +8,6 @@ export class MonacoEditor {
   @bindable({ defaultBindingMode: bindingMode.oneTime })
   public changes: any[]
   public editorHostContainer: HTMLElement
-  public changesTotal: number
   private editorParent: HTMLElement
   private editorFactory: EditorFactory
   private editor: monaco.editor.IStandaloneCodeEditor
@@ -19,9 +18,6 @@ export class MonacoEditor {
 
   constructor(editorFactory: EditorFactory) {
     this.editorFactory = editorFactory
-  }
-  bind() {
-    this.changesTotal = this.changes.length - 1
   }
   public attached() {
     this.editorFactory

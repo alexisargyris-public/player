@@ -1,4 +1,4 @@
-@import "open-iconic-bootstrap.scss";
+@import 'open-iconic-bootstrap.scss';
 
 #editor-controller-container {
   display: flex;
@@ -6,16 +6,17 @@
   align-items: center;
 }
 
+/* buttons */
 #editor-controller-buttons {
   padding: 0.375rem 0.75rem;
 }
-
 .editor-controller-button {
   margin-right: 0.25rem;
   padding: 0.187rem 0.375rem;
   vertical-align: 0;
 }
 
+/* counters */
 #editor-controller-counters {
   padding: 0.375rem 0.75rem;
 }
@@ -26,17 +27,28 @@
   border-color: #343a40;
   margin-right: 0.5rem;
 }
-.form-group {
-  margin-top: 0.5rem;
-  margin-bottom: 0;
+
+/* options */
+#editor-controller-options .dropdown-menu {
+  transform: translate3d(-4.5rem, 2.3rem, 0px);
+}
+#editor-controller-options form {
+  width: 10rem;
+}
+#editor-controller-options .form-group:nth-child(even) {
+  margin-bottom: inherit;
+}
+#editor-controller-options .dropdown-menu button {
+  color: inherit;
+  border: 1px solid #ced4da;
 }
 
-.dropdown-menu {
-  padding: 0.5rem;
-}
-
-#settings-play-limit {
-  width: 4rem;
+#editor-controller-options input[type='number'] {
+  padding: 0.375rem;
   display: inline-block;
   height: calc(1.5rem + 2px);
+}
+
+#settings-play-duration-secs {
+  width: 3rem;
 }

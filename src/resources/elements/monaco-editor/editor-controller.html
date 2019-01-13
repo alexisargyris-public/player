@@ -61,7 +61,7 @@
       <span>${ changesCounter }</span><span>${ changesTotal }</span>
     </div>
     <div id="editor-controller-options">
-      <div class="dropdown dropleft">
+      <div class="btn-group">
         <button
           class="btn dropdown-toggle"
           type="button"
@@ -72,28 +72,32 @@
         >
           επιλογές
         </button>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <div class="custom-control custom-switch">
-            <input
-              type="checkbox"
-              class="custom-control-input"
-              id="settings-timely"
-              checked.bind="settingsTimely"
-            />
-            <label class="custom-control-label" for="settings-timely"
-              >χρονολογημένα</label
-            >
-          </div>
-          <div class="form-group">
-            <label for="settings-play-limit">σύνολο</label>
-            <input
-              type="number"
-              class="form-control"
-              id="settings-play-limit"
-              aria-describedby="settings-play-limit"
-              value.bind="settingsPlayLimit"
-            />
-          </div>
+        <div class="dropdown-menu dropdown-menu-right p-1">
+          <form class="p-2">
+            <div class="form-group">
+              <input
+                type="checkbox"
+                class="form-check-input"
+                id="settings-respect-timing"
+                checked.bind="settingsRespectTiming"
+              />
+              <label class="form-check-label" for="settings-respect-timing"
+                >συγχρονισμένα</label
+              >
+            </div>
+            <div class="form-group">
+              <label for="settings-play-duration-secs">σύνολο</label>
+              <input
+                type="number"
+                class="form-control mr-1"
+                id="settings-play-duration-secs"
+                aria-describedby="settings-play-duration-secs"
+                value.bind="settingsPlayDurationSecs"
+                min="1"
+                max="99"
+              />secs
+            </div>
+          </form>
         </div>
       </div>
     </div>
