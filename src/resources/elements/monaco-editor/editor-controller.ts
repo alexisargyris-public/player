@@ -59,13 +59,10 @@ export class EditorController {
         this.doAction({ action: 'previous', counter: this.changesCounter })
         --this.changesCounter
         this.playDelay = this.settingsRespectTiming
-          ? Math.floor(
-              ((parseInt(this.changes[this.changesCounter].timestamp) -
-                parseInt(this.firstChangeTimestamp)) /
-                parseInt(this.firstChangeTimestamp)) *
-                this.settingsPlayDurationMSecs
-            )
-          : Math.floor(this.settingsPlayDurationMSecs / this.changesTotal)
+          ? ((this.changes[this.changesCounter] - this.firstChangeTimestamp) /
+              this.firstChangeTimestamp) *
+            this.settingsPlayDurationMSecs
+          : this.settingsPlayDurationMSecs / this.changesTotal
         this.timerId = setTimeout(play.bind(this), this.playDelay)
       } else {
         // no more changes, do a 'pause' action
@@ -79,13 +76,10 @@ export class EditorController {
         this.doAction({ action: 'next', counter: this.changesCounter })
         ++this.changesCounter
         this.playDelay = this.settingsRespectTiming
-          ? Math.floor(
-              ((parseInt(this.changes[this.changesCounter].timestamp) -
-                parseInt(this.firstChangeTimestamp)) /
-                parseInt(this.firstChangeTimestamp)) *
-                this.settingsPlayDurationMSecs
-            )
-          : Math.floor(this.settingsPlayDurationMSecs / this.changesTotal)
+          ? ((this.changes[this.changesCounter] - this.firstChangeTimestamp) /
+              this.firstChangeTimestamp) *
+            this.settingsPlayDurationMSecs
+          : this.settingsPlayDurationMSecs / this.changesTotal
         this.timerId = setTimeout(play.bind(this), this.playDelay)
       } else {
         // no more changes, do a 'pause' action
