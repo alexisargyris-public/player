@@ -14,19 +14,22 @@ export class EditorController {
   @bindable({ defaultBindingMode: bindingMode.oneTime })
   public changes: any[]
   public changesTotal: number
-  public firstChangeTimestamp: number
   public changesCounter: number = 0
   public controlStates: EditorControlState = {} as EditorControlState
-  public settingsRespectTiming: boolean = false // take into account change timing info
-  public settingsPlayDurationSecs: number = 5 // time duration for all changes to play
+  public settingsRespectTiming: boolean = true // take into account change timing info
+  public settingsPlayDurationSecs: number = 10 // time duration for all changes to play
   public settingsPlayDurationMSecs: number =
     this.settingsPlayDurationSecs * 1000
-  public playDelay: number
+  public playDelay: number = 0
   public timerId: number
+  public scale: number
 
   bind() {
     this.changesTotal = this.changes.length - 1
-    this.firstChangeTimestamp = this.changes[0].timestamp
+    this.scale =
+      (parseInt(this.changes[this.changesTotal].timestamp) -
+        parseInt(this.changes[0].timestamp)) /
+      this.settingsPlayDurationMSecs
   }
   attached() {
     this.do(void 0, 'pause')
@@ -54,35 +57,35 @@ export class EditorController {
     }
     function rplay() {
       // action 'reverse play (rplay)' is a series of 'previous' actions
+      this.doAction({ action: 'previous', counter: this.changesCounter })
       if (this.changesCounter > 0) {
-        // changes remain, do a 'previous' action and repeat
-        this.doAction({ action: 'previous', counter: this.changesCounter })
-        --this.changesCounter
         this.playDelay = this.settingsRespectTiming
-          ? ((this.changes[this.changesCounter] - this.firstChangeTimestamp) /
-              this.firstChangeTimestamp) *
-            this.settingsPlayDurationMSecs
-          : this.settingsPlayDurationMSecs / this.changesTotal
-        this.timerId = setTimeout(play.bind(this), this.playDelay)
+          ? Math.floor(
+              (parseInt(this.changes[this.changesCounter].timestamp) -
+                parseInt(this.changes[this.changesCounter - 1].timestamp)) /
+                this.scale
+            )
+          : Math.floor(this.settingsPlayDurationMSecs / this.changesTotal)
+        --this.changesCounter
+        this.timerId = setTimeout(rplay.bind(this), this.playDelay)
       } else {
-        // no more changes, do a 'pause' action
         this.do(void 0, 'pause')
       }
     }
     function play() {
       // action 'play' is a series of 'next' actions
-      if (this.changesCounter <= this.changesTotal - 1) {
-        // changes remain, do a 'next' action and repeat
-        this.doAction({ action: 'next', counter: this.changesCounter })
-        ++this.changesCounter
+      this.doAction({ action: 'next', counter: this.changesCounter })
+      if (this.changesCounter < this.changesTotal) {
         this.playDelay = this.settingsRespectTiming
-          ? ((this.changes[this.changesCounter] - this.firstChangeTimestamp) /
-              this.firstChangeTimestamp) *
-            this.settingsPlayDurationMSecs
-          : this.settingsPlayDurationMSecs / this.changesTotal
+          ? Math.floor(
+              (parseInt(this.changes[this.changesCounter + 1].timestamp) -
+                parseInt(this.changes[this.changesCounter].timestamp)) /
+                this.scale
+            )
+          : Math.floor(this.settingsPlayDurationMSecs / this.changesTotal)
+        ++this.changesCounter
         this.timerId = setTimeout(play.bind(this), this.playDelay)
       } else {
-        // no more changes, do a 'pause' action
         this.do(void 0, 'pause')
       }
     }
