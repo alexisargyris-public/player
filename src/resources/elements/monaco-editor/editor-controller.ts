@@ -13,7 +13,7 @@ export class EditorController {
   @bindable public doAction: Function
   @bindable({ defaultBindingMode: bindingMode.oneTime })
   public changes: any[]
-  public changesTotal: number
+  public changesTotal: number = 0
   public changesCounter: number = 0
   public controlStates: EditorControlState = {} as EditorControlState
   public settingsRespectTiming: boolean = true // take into account change timing info
@@ -22,14 +22,16 @@ export class EditorController {
     this.settingsPlayDurationSecs * 1000
   public playDelay: number = 0
   public timerId: number
-  public scale: number
+  public scale: number = 1
 
   bind() {
-    this.changesTotal = this.changes.length - 1
-    this.scale =
-      (parseInt(this.changes[this.changesTotal].timestamp) -
-        parseInt(this.changes[0].timestamp)) /
-      this.settingsPlayDurationMSecs
+    if (typeof this.changes !== 'undefined' && this.changes.length) {
+      this.changesTotal = this.changes.length - 1
+      this.scale =
+        (parseInt(this.changes[this.changesTotal].timestamp) -
+          parseInt(this.changes[0].timestamp)) /
+        this.settingsPlayDurationMSecs
+    }
   }
   attached() {
     this.do(void 0, 'pause')

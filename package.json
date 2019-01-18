@@ -6,8 +6,18 @@
     "type": "git",
     "url": "https://github.com/anemomazomata/player"
   },
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
   "license": "MIT",
   "dependencies": {
+    "event-stream": "^4.0.1"
+  },
+  "peerDependencies": {},
+  "devDependencies": {
+    "@types/bluebird": "^3.5.24",
+    "@types/node": "^10.11.6",
     "aurelia-animator-css": "^1.0.4",
     "aurelia-bootstrapper": "^2.3.0",
     "bluebird": "^3.5.2",
@@ -16,10 +26,8 @@
     "monaco-editor": "^0.15.6",
     "open-iconic": "^1.1.1",
     "requirejs": "^2.3.6",
-    "text": "github:requirejs/text#latest"
-  },
-  "peerDependencies": {},
-  "devDependencies": {
+    "text": "github:requirejs/text#latest",
+    "event-stream": "^4.0.1",
     "aurelia-cli": "^1.0.0-beta.8",
     "aurelia-testing": "^1.0.0",
     "aurelia-tools": "^2.0.0",
@@ -32,8 +40,6 @@
     "merge2": "^1.2.3",
     "tslint": "^5.11.0",
     "typescript": "^3.1.2",
-    "@types/bluebird": "^3.5.24",
-    "@types/node": "^10.11.6",
     "gulp-htmlmin": "^5.0.1",
     "html-minifier": "^3.5.20",
     "gulp-sass": "^4.0.1",
@@ -46,5 +52,12 @@
     "gulp-sourcemaps": "^2.6.4",
     "gulp-notify": "^3.2.0",
     "gulp-watch": "^5.0.1"
+  },
+  "scripts": {
+    "test": "au test",
+    "preversion": "npm test",
+    "version": "standard-changelog && git add CHANGELOG.md",
+    "prepare": "au build-plugin",
+    "postversion": "git push && git push --tags"
   }
 }

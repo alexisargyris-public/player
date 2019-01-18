@@ -1,0 +1,12 @@
+<template>
+  <require from="./editor-controller"></require>
+  <require from="./monaco-editor.css"></require>
+
+  <div id="editor-top-container">
+    <editor-controller
+      do-action.call="doAction(action, counter)"
+      changes.bind="changes"
+    ></editor-controller>
+    <div id="editor-host-container" ref="editorHostContainer"></div>
+  </div>
+</template>

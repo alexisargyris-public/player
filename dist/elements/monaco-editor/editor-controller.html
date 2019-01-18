@@ -1,0 +1,105 @@
+<template>
+  <require from="./editor-controller.css"></require>
+
+  <div id="editor-controller-container">
+    <div id="editor-controller-buttons">
+      <button
+        type="button"
+        class="btn btn-outline-dark editor-controller-button oi oi-media-step-backward"
+        data-action="first"
+        click.trigger="do($event)"
+        disabled.bind="!controlStates.first"
+      ></button>
+      <button
+        type="button"
+        class="btn btn-outline-dark editor-controller-button oi oi-media-skip-backward"
+        data-action="previous"
+        click.trigger="do($event)"
+        disabled.bind="!controlStates.previous"
+      ></button>
+      <button
+        type="button"
+        class="btn btn-outline-dark editor-controller-button oi oi-media-play"
+        style="transform:scaleX(-1);"
+        data-toggle="button"
+        data-action="rplay"
+        click.trigger="do($event)"
+        disabled.bind="!controlStates.rplay"
+      ></button>
+      <button
+        type="button"
+        class="btn btn-outline-dark editor-controller-button oi oi-media-pause"
+        data-toggle="button"
+        data-action="pause"
+        click.trigger="do($event)"
+        disabled.bind="!controlStates.pause"
+      ></button>
+      <button
+        type="button"
+        class="btn btn-outline-dark editor-controller-button oi oi-media-play"
+        data-toggle="button"
+        data-action="play"
+        click.trigger="do($event)"
+        disabled.bind="!controlStates.play"
+      ></button>
+      <button
+        type="button"
+        class="btn btn-outline-dark editor-controller-button oi oi-media-skip-forward"
+        data-action="next"
+        click.trigger="do($event)"
+        disabled.bind="!controlStates.next"
+      ></button>
+      <button
+        type="button"
+        class="btn btn-outline-dark editor-controller-button oi oi-media-step-forward"
+        data-action="last"
+        click.trigger="do($event)"
+        disabled.bind="!controlStates.last"
+      ></button>
+    </div>
+    <div id="editor-controller-counters">
+      <span>${ changesCounter }</span><span>${ changesTotal }</span>
+    </div>
+    <div id="editor-controller-options">
+      <div class="btn-group">
+        <button
+          class="btn dropdown-toggle"
+          type="button"
+          id="dropdownMenuButton"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          επιλογές
+        </button>
+        <div class="dropdown-menu dropdown-menu-right p-1">
+          <form class="p-2">
+            <div class="form-group">
+              <input
+                type="checkbox"
+                class="form-check-input"
+                id="settings-respect-timing"
+                checked.bind="settingsRespectTiming"
+              />
+              <label class="form-check-label" for="settings-respect-timing"
+                >συγχρονισμένα</label
+              >
+            </div>
+            <div class="form-group">
+              <label for="settings-play-duration-secs">σύνολο</label>
+              <input
+                type="number"
+                class="form-control mr-1"
+                id="settings-play-duration-secs"
+                aria-describedby="settings-play-duration-secs"
+                value.bind="settingsPlayDurationSecs"
+                min="1"
+                max="99"
+              />secs
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
