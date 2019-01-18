@@ -13,10 +13,5 @@ Thumbs.db
 # Dependencies
 node_modules
 
-# Compiled files
-/scripts
-/src/environment.js
-/src/environment.ts
-
 # Logs
 *.log
